@@ -1,9 +1,12 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",	
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "config:base",
+      "config:recommended"
+    ],
     "onboarding": true,
     "platform": "github",
     "forkProcessing": "enabled",
-    "extends": ["config:recommended"],
     "dependencyDashboard": true,
     "prConcurrentLimit": 5,
     "prHourlyLimit": 2,
@@ -12,39 +15,15 @@
       "enabled": false
      },
     "customManagers": [
-       {
+      {
         "customType": "regex",
-        "fileMatch": ["Makefile.variables"],
-        "matchStrings": ["kubernetes_version\\s*=\\s*(?<currentValue>\\S+)"],
-        "depNameTemplate": "kubernetes",
-        "versioningTemplate": "semver-coerced",
-        "datasourceTemplate": "custom.kubernetes"
-       },
-       {
-        "customType": "regex",
-        "fileMatch": ["Makefile.variables"],
-        "matchStrings": ["helm_version\\s*=\\s*(?<currentValue>\\S+)"],
-        "depNameTemplate": "helm",
-        "versioningTemplate": "semver-coerced",
-        "datasourceTemplate": "custom.helm"
-       },
-       {
-        "customType": "regex",
-        "fileMatch": ["Makefile.variables"],
-        "matchStrings": ["go_version\\s*=\\s*(?<currentValue>\\S+)"],
-        "depNameTemplate": "golang",
-        "versioningTemplate": "semver-coerced",
-        "datasourceTemplate": "golang-version"
-       }
-     ],
-     "customDatasources": {
-      "kubernetes": {
-        "defaultRegistryUrlTemplate": "https://cdn.dl.k8s.io/release/stable.txt",
-        "format": "plain"
-      },
-      "helm": {
-        "defaultRegistryUrlTemplate": "https://get.helm.sh/helm-latest-version",
-        "format": "plain"
+        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
+        "matchStrings": [
+          "runc_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+        ],
+        "datasourceTemplate": "github-releases",
+        "depNameTemplate": "opencontainers/runc",
+        "versioningTemplate": "semver"
       }
-    }
-  }
+    ]
+}
