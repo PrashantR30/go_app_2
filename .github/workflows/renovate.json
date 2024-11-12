@@ -11,8 +11,8 @@
     "labels": ["dependencies"],
     "dependencyDashboard": true,
     "separateMinorPatch": true,
-    "prConcurrentLimit": 20,
-    "prHourlyLimit": 20,
+    "prConcurrentLimit": 30,
+    "prHourlyLimit": 30,
     "semanticCommits": "enabled",
     "dockerfile": {
       "enabled": false
