@@ -1,22 +1,14 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "onboarding": true,
-    "platform": "github",
-    "forkProcessing": "enabled",
-    "prConcurrentLimit": 20,
-    "prHourlyLimit": 20,
-    "dependencyDashboard": true,
-    "semanticCommits": "enabled",
+    "extends": [
+      "config:base"
+    ],
     "automerge": false,
     "labels": ["dependencies"],
-    "extends": [
-      "config:base",
-      "config:recommended"
-    ],
     "customManagers": [
       {
         "customType": "regex",
-        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
+        "fileMatch": ["^Makefile$"],
         "matchStrings": [
           "alpine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+)",
           "alpine_patch_version\\s*=\\s*\\$\\(alpine_version\\)\\.(?<currentValue>\\d+)",
@@ -33,7 +25,8 @@
         ],
         "packageNameTemplate": "{{depName}}",
         "depNameTemplate": "{{fileName}} {{matchStrings}}",
-        "versioningTemplate": "semver"
+        "versioningTemplate": "semver",
+        "datasourceTemplate": "github-releases"
       }
     ],
     "packageRules": [
@@ -47,6 +40,10 @@
         "matchPackageNames": ["docker.io/library/alpine"],
         "versioning": "docker"
       }
-    ]
+    ],
+    "prConcurrentLimit": 2,
+    "prHourlyLimit": 2,
+    "dependencyDashboard": true,
+    "separateMinorPatch": true
   }
   
