@@ -1,20 +1,50 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "onboarding": true,
+    "platform": "github",
+    "forkProcessing": "enabled",
     "extends": [
-      "config:base"
+      "config:base",
+      "config:recommended"
     ],
+    "prConcurrentLimit": 20,
+    "prHourlyLimit": 20,
+    "dependencyDashboard": true,
+    "semanticCommits": "enabled",
     "customManagers": [
       {
         "customType": "regex",
-        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
+        "fileMatch": ["^Makefile$"],
         "matchStrings": [
-          "runc_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+          "alpine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+)",
+          "alpine_patch_version\\s*=\\s*\\$\\(alpine_version\\)\\.(?<currentValue>\\d+)",
+          "go_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "runc_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "containerd_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "kubernetes_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "helm_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "kine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "etcd_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "konnectivity_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "iptables_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+          "keepalived_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
         ],
-        "packageNameTemplate": "opencontainers/runc",
-        "versioningTemplate": "semver-coerced"
+        "packageNameTemplate": "{{depName}}",
+        "depNameTemplate": "{{fileName}} {{matchStrings}}",
+        "versioningTemplate": "semver"
       }
     ],
-    "prConcurrentLimit": 1,
-    "prHourlyLimit": 1,
-    "dependencyDashboard": true
+    "packageRules": [
+      {
+        "matchDatasources": ["docker"],
+        "matchPackageNames": ["docker.io/library/golang"],
+        "versioning": "docker"
+      },
+      {
+        "matchDatasources": ["docker"],
+        "matchPackageNames": ["docker.io/library/alpine"],
+        "versioning": "docker"
+      }
+    ]
   }
+  
