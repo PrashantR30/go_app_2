@@ -11,10 +11,12 @@
     "prHourlyLimit": 20,
     "dependencyDashboard": true,
     "semanticCommits": "enabled",
+    "automerge": false,
+    "labels": ["dependencies"],
     "customManagers": [
       {
         "customType": "regex",
-        "fileMatch": ["^Makefile$"],
+        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
         "matchStrings": [
           "alpine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+)",
           "alpine_patch_version\\s*=\\s*\\$\\(alpine_version\\)\\.(?<currentValue>\\d+)",
