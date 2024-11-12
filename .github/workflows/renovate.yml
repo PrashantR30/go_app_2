@@ -7,7 +7,6 @@ on:
     branches:
       - main
       - deps_check
-
 jobs:
   renovate:
     runs-on: ubuntu-latest
