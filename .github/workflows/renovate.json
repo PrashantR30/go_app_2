@@ -1,52 +1,56 @@
-{
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  {
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",	
     "onboarding": true,
     "platform": "github",
     "forkProcessing": "enabled",
-    "prConcurrentLimit": 20,
-    "prHourlyLimit": 20,
-    "dependencyDashboard": true,
-    "semanticCommits": "enabled",
+    "extends": [
+        "config:base",
+        "config:recommended"
+      ],
     "automerge": false,
     "labels": ["dependencies"],
-    "extends": [
-      "config:base",
-      "config:recommended"
-    ],
+    "dependencyDashboard": true,
+    "separateMinorPatch": true,
+    "prConcurrentLimit": 20,
+    "prHourlyLimit": 20,
+    "semanticCommits": "enabled",
+    "dockerfile": {
+      "enabled": false
+     },
     "customManagers": [
-      {
+       {
         "customType": "regex",
-        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
-        "matchStrings": [
-          "alpine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+)",
-          "alpine_patch_version\\s*=\\s*\\$\\(alpine_version\\)\\.(?<currentValue>\\d+)",
-          "go_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "runc_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "containerd_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "kubernetes_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "helm_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "kine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "etcd_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "konnectivity_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "iptables_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-          "keepalived_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
-        ],
-        "packageNameTemplate": "{{depName}}",
-        "depNameTemplate": "{{fileName}} {{matchStrings}}",
-        "versioningTemplate": "semver"
-      }
-    ],
-    "packageRules": [
-      {
-        "matchDatasources": ["docker"],
-        "matchPackageNames": ["docker.io/library/golang"],
-        "versioning": "docker"
+        "fileMatch": ["Makefile.variables"],
+        "matchStrings": ["kubernetes_version\\s*=\\s*(?<currentValue>\\S+)"],
+        "depNameTemplate": "kubernetes",
+        "versioningTemplate": "semver-coerced",
+        "datasourceTemplate": "custom.kubernetes"
+       },
+       {
+        "customType": "regex",
+        "fileMatch": ["Makefile.variables"],
+        "matchStrings": ["helm_version\\s*=\\s*(?<currentValue>\\S+)"],
+        "depNameTemplate": "helm",
+        "versioningTemplate": "semver-coerced",
+        "datasourceTemplate": "custom.helm"
+       },
+       {
+        "customType": "regex",
+        "fileMatch": ["Makefile.variables"],
+        "matchStrings": ["go_version\\s*=\\s*(?<currentValue>\\S+)"],
+        "depNameTemplate": "golang",
+        "versioningTemplate": "semver-coerced",
+        "datasourceTemplate": "golang-version"
+       }
+     ],
+     "customDatasources": {
+      "kubernetes": {
+        "defaultRegistryUrlTemplate": "https://cdn.dl.k8s.io/release/stable.txt",
+        "format": "plain"
       },
-      {
-        "matchDatasources": ["docker"],
-        "matchPackageNames": ["docker.io/library/alpine"],
-        "versioning": "docker"
+      "helm": {
+        "defaultRegistryUrlTemplate": "https://get.helm.sh/helm-latest-version",
+        "format": "plain"
       }
-    ]
+    }
   }
-  
