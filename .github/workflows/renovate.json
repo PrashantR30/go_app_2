@@ -3,16 +3,16 @@
     "onboarding": true,
     "platform": "github",
     "forkProcessing": "enabled",
-    "extends": [
-      "config:base",
-      "config:recommended"
-    ],
     "prConcurrentLimit": 20,
     "prHourlyLimit": 20,
     "dependencyDashboard": true,
     "semanticCommits": "enabled",
     "automerge": false,
     "labels": ["dependencies"],
+    "extends": [
+      "config:base",
+      "config:recommended"
+    ],
     "customManagers": [
       {
         "customType": "regex",
