@@ -1,19 +1,8 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-      "config:base",
-      "config:recommended"
+      "config:base"
     ],
-    "onboarding": true,
-    "platform": "github",
-    "forkProcessing": "enabled",
-    "dependencyDashboard": true,
-    "prConcurrentLimit": 5,
-    "prHourlyLimit": 2,
-    "semanticCommits": "enabled",
-    "dockerfile": {
-      "enabled": false
-     },
     "customManagers": [
       {
         "customType": "regex",
@@ -21,9 +10,11 @@
         "matchStrings": [
           "runc_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
         ],
-        "datasourceTemplate": "github-releases",
-        "depNameTemplate": "opencontainers/runc",
-        "versioningTemplate": "semver"
+        "packageNameTemplate": "opencontainers/runc",
+        "versioningTemplate": "semver-coerced"
       }
-    ]
-}
+    ],
+    "prConcurrentLimit": 1,
+    "prHourlyLimit": 1,
+    "dependencyDashboard": true
+  }
