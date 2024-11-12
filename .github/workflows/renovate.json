@@ -3,18 +3,20 @@
     "onboarding": true,
     "platform": "github",
     "forkProcessing": "enabled",
-    "extends": [
-      "config:base",
-      "config:recommended"
-    ],
     "prConcurrentLimit": 20,
     "prHourlyLimit": 20,
     "dependencyDashboard": true,
     "semanticCommits": "enabled",
+    "automerge": false,
+    "labels": ["dependencies"],
+    "extends": [
+      "config:base",
+      "config:recommended"
+    ],
     "customManagers": [
       {
         "customType": "regex",
-        "fileMatch": ["^Makefile$"],
+        "fileMatch": ["^embedded-bin/Makefile\\.variables$"],
         "matchStrings": [
           "alpine_version\\s*=\\s*(?<currentValue>\\d+\\.\\d+)",
           "alpine_patch_version\\s*=\\s*\\$\\(alpine_version\\)\\.(?<currentValue>\\d+)",
